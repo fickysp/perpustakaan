@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anggota;
 use App\Models\Category;
+use App\Models\Pinjam;
 use Illuminate\Http\Request;
 
 class PinjamController extends Controller
@@ -13,7 +15,8 @@ class PinjamController extends Controller
     public function index()
     {
         $datas = Category::get();
-        return view('pinjam.index', compact('datas'));
+        $anggotas = Anggota::get();
+        return view('pinjam.index', compact('datas', 'anggotas'));
     }
 
     /**
@@ -22,7 +25,12 @@ class PinjamController extends Controller
     public function create()
     {
         $categories = Category::get();
-        return view('pinjam.create', compact('categories'));
+        $anggotas = Anggota::get();
+        $kode_unik = Pinjam::get()->last();
+        $id_pinjam = ($kode_unik->id == "" ? 1 : $kode_unik->id);
+        $id_pinjam ++;
+        $kode_transaksi = "PJM" . date("dmY"). sprintf("%0.3s", $id_pinjam);
+        return view('pinjam.create', compact('categories', 'anggotas', 'kode_transaksi'));
     }
 
     /**

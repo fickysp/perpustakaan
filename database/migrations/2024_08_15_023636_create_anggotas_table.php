@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('anggotas', function (Blueprint $table) {
             $table->id();
+            $table->string('nisn');
+            $table->string('nama_anggota');
+            $table->string('email')->unique();
+            $table->string('phone_number', 13);
             $table->timestamps();
         });
     }

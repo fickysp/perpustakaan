@@ -12,7 +12,7 @@
                         <label for="">Kode Transaksi</label>
                     </div>
                     <div class="col-sm-6">
-                        <input class="form-control" type="text" name="category_name" readonly>
+                        <input value="{{$kode_transaksi}}" class="form-control" type="text" name="kode_transaksi" readonly>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -22,7 +22,9 @@
                     <div class="col-sm-6">
                         <select name="" id="" class="form-control">
                             <option value="">Pilih Anggota</option>
-                            <option value="">Pilih Anggota</option>
+                            @foreach ($anggotas as $ang)
+                            <option value="{{$ang->id}}">{{$ang->nama_anggota}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
