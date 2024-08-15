@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Anggota;
 use App\Models\Category;
+use App\Models\DetailPinjam;
 use App\Models\Pinjam;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PinjamController extends Controller
 {
@@ -15,8 +18,9 @@ class PinjamController extends Controller
     public function index()
     {
         $datas = Category::get();
+        $pinjams = Pinjam::with('anggota')->get();
         $anggotas = Anggota::get();
-        return view('pinjam.index', compact('datas', 'anggotas'));
+        return view('pinjam.index', compact('datas', 'anggotas', 'pinjams'));
     }
 
     /**
@@ -27,9 +31,9 @@ class PinjamController extends Controller
         $categories = Category::get();
         $anggotas = Anggota::get();
         $kode_unik = Pinjam::get()->last();
-        $id_pinjam = ($kode_unik->id == "" ? 1 : $kode_unik->id);
-        $id_pinjam ++;
-        $kode_transaksi = "PJM" . date("dmY"). sprintf("%0.3s", $id_pinjam);
+        $id_pinjam = isset($kode_unik->id) ? ($kode_unik->id == "" ? 1 : $kode_unik->id) : '';
+        $id_pinjam++;
+        $kode_transaksi = "PJM" . date("dmY") . sprintf("%0.3s", $id_pinjam);
         return view('pinjam.create', compact('categories', 'anggotas', 'kode_transaksi'));
     }
 
@@ -38,10 +42,25 @@ class PinjamController extends Controller
      */
     public function store(Request $request)
     {
-        Category::create([
-            'category_name' => $request->category_name,
+        $pinjam = Pinjam::create([
+            'kode_transaksi' => $request->kode_transaksi,
+            'anggota_id' => $request->anggota_id,
+            'tgl_pinjam' => $request->tgl_pinjam,
+            'tgl_kembali' => $request->tgl_kembali,
+            'petugas' => (Auth::user()->name ??  'Admin'),
         ]);
-        return redirect()->to('category');
+
+        if ($pinjam) {
+            foreach ($request->buku_id as $key => $value) {
+                DetailPinjam::create([
+                    'pinjam_id' => $value,
+                    'buku_id' => $pinjam->id,
+                ]);
+            }
+        }
+        Alert::success('Sukses', 'Data behasil ditambahkan');
+
+        return redirect()->to('pinjam')->with('success', 'Data berhasil ditambahkan');
     }
 
     /**

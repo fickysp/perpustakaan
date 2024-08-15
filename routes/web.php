@@ -27,6 +27,7 @@ Route::resource('book', BooksController::class);
 //peminjaman
 Route::resource('pinjam', PinjamController::class);
 Route::get('getBuku/{category_id}', [AjaxController::class, 'getDataBuku']);
+Route::get('getBook/{buku_id}', [AjaxController::class, 'getBuku']);
 
 
 

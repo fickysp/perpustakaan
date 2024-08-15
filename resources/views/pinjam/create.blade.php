@@ -12,7 +12,8 @@
                         <label for="">Kode Transaksi</label>
                     </div>
                     <div class="col-sm-6">
-                        <input value="{{$kode_transaksi}}" class="form-control" type="text" name="kode_transaksi" readonly>
+                        <input value="{{ $kode_transaksi }}" class="form-control" type="text" name="kode_transaksi"
+                            readonly>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -20,10 +21,10 @@
                         <label for="">Nama Anggota</label>
                     </div>
                     <div class="col-sm-6">
-                        <select name="" id="" class="form-control">
+                        <select name="anggota_id" id="anggota_id" class="form-control">
                             <option value="">Pilih Anggota</option>
                             @foreach ($anggotas as $ang)
-                            <option value="{{$ang->id}}">{{$ang->nama_anggota}}</option>
+                                <option value="{{ $ang->id }}">{{ $ang->nama_anggota }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -33,7 +34,7 @@
                         <label for="">Tanggal Pinjam</label>
                     </div>
                     <div class="col-sm-6">
-                        <input class="form-control" type="date" name="category_name" >
+                        <input class="form-control" type="date" name="tgl_pinjam">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -41,7 +42,7 @@
                         <label for="">Tanggal Kembali</label>
                     </div>
                     <div class="col-sm-6">
-                        <input class="form-control" type="date" name="category_name" >
+                        <input class="form-control" type="date" name="tgl_kembali">
                     </div>
                 </div>
             </div>
@@ -90,8 +91,8 @@
             <div class="col-sm-4">
                 <select name="" id="category_id" class="form-control">
                     <option value="">Pilih Kategori</option>
-                    @foreach ( $categories as $cat )
-                    <option value="{{$cat->id}}">{{$cat->category_name}}</option>
+                    @foreach ($categories as $cat)
+                        <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
                     @endforeach
                 </select>
             </div>

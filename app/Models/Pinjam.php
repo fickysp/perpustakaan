@@ -9,7 +9,16 @@ class Pinjam extends Model
 {
     use HasFactory;
 
-    public function anggota(){
+    protected $fillable = [
+        'anggota_id',
+        'kode_transaksi',
+        'tgl_pinjam',
+        'tgl_kembali',
+        'petugas'
+    ];
+
+    public function anggota()
+    {
         return $this->belongsTo(Anggota::class, 'anggota_id', 'id');
     }
 }
